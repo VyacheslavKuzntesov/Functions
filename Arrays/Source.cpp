@@ -5,6 +5,8 @@
 
 #include<iostream>
 #include<conio.h>
+#include<cstdlib>
+
 using namespace std;
 using std::cin;
 using std::cout;

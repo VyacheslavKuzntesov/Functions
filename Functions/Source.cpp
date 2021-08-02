@@ -1,14 +1,42 @@
 ﻿#include<iostream>
+#include<ctime>
 using namespace std;
 
 #define tab "\t"
 
 int Add(int a, int b); // прототип функции(объявление функции - )
+
 int Sub(int a, int b);
+
 int Mul(int a, int b);
+
 double Div(int a, int b);
+
 double Power(double a = 1, int n = 2);//Возводит число в степень
 // Если в функцию передать одно число то она возведёт её в квадрат
+
+const int ROWS = 8;
+const int COLS = 5;
+
+int Sum(int arr[], const int n);
+double Sum(double arr[], int const n);
+
+double AVG(int arr[], const int n);
+double AVG(double arr[], const int n);
+
+void Print(int arr[], const int n);
+void Print(double arr[], const int n);
+void Print(int arr[ROWS][COLS], const int ROWS, const int COLS);
+
+void FillRand(int arr[ROWS][COLS], const int ROWS, const int COLS);
+void FillRand(double arr[], const int n);
+void FillRand(int arr[], const int n);
+
+int minValue(int arr[], const int n);
+double minValue(double arr[], const int n);
+
+int maxValue(int arr[], const int n);
+double maxValue(double arr[], const int n);
 
 void main()
 {
@@ -70,15 +98,119 @@ void main()
 
 	Unresolved externals - ошибка на этапе компоновке (LNK(ошибка компоновки) - linker(компоновщик))
 	Unresolved externals sybol found - возникает в том случае когда компоновщик не может что то найти и чаще всего это происходит когда он не может связать прототип с реализацией а это в свою очередь происходит когда в прототипе список параметров отличается или когда нет реализации
+
+	Вызов функции(Function call) - при вызове функции происходит переход по адресу памяти по которому функция загружена в оперативную память а ключевое слово return возвращает выполнение на тот адрес памяти с которого была вызвана функция.
+	Оперативная память компьютера является очень быстрой при линейном чтении данных но её слабым местом по производительности являеться переход по другому адресу это связано с задержкой памяти CAS-Latency
+	По этому причастых вызовах функций может снижаться производительность и язык С++ дает возможность встраивать в тело функции на место её вызова для этого функцию можно сделать  inline тело inline функции встраиваеться на место вызова функции это увеличевает размер exe файла но ускоряет выполнение программы по скольку при этом уменьшается количество переходов по адресам памяти
+
+	Перегрузка функции 
+	Перегрузкой функции называется ситуация когда есть 2 или более функций с одинаковым именем но разным списком принемаемых параметров.
+	Список принимаемых параметров перегрузком функции могут принимать разные типы и кол аргуметов.
+	Тип возвращающихся значений перегруженых функций так же может отличаться но перегруженые функции не могут отличаться лишь типом возвращающего значения по скольку компилятор опред какой экземпляр перегру. вызвать только по списку принемаемых параметров точнее по списку параметров которые мы передали в функцию
+	Реализации перегруженых функций могут отличаться или же быть идентичными как правило если список принемаемых параметров перегруженых функций отличается лишь типом аргументов то реализации у них будут идентичны или как минимум очень похожи.
+	Если же список принемаемых параметров перег фун отличаеться по количеству аргуметов то скорее всего и реализации у них будут разные 
 	*/
+
 	int a, b;
-	cout << "Введите два числа: "; cin >> a >> b;
-	int c = Add(a, b); //Использование функции (вызов функции - function call)
-	cout << a << " + " << b << " = " << c << endl;
-	cout << a << " - " << b << " = " << Sub(a, b) << endl;
-	cout << a << " * " << b << " = " << Mul(a, b) << endl;
-	cout << a << " / " << b << " = " << Div(a, b) << endl;
-	cout << a << " ^ " << b << " = " << Power(a, b) << endl;
+	const int n = 5;
+	int arr[n];
+	int brr[n];
+	const int D_SIZE = 5;
+	double d_arr[D_SIZE];
+	int i_arr_2[ROWS][COLS];
+	time_t start;
+	start = time(NULL);
+
+	//cout << "Введите два числа: "; cin >> a >> b;
+	//int c = Add(a, b); //Использование функции (вызов функции - function call)
+	//cout << a << " + " << b << " = " << c << endl;
+	//cout << a << " - " << b << " = " << Sub(a, b) << endl;
+	//cout << a << " * " << b << " = " << Mul(a, b) << endl;
+	//cout << a << " / " << b << " = " << Div(a, b) << endl;
+	//cout << a << " ^ " << b << " = " << Power(a, b) << endl;
+
+	for (int i = 0; i < n; i++)
+	{
+		arr[i] = rand() % 10;
+	}
+	cout << "Массив arr: " << endl;
+	Print(arr, n);
+	cout << endl;
+	cout << "Сумма элементов массива arr: " << Sum(arr, n) << endl;
+	cout << "Среднее арифметическое массива arr: " << AVG(arr, n) << endl << endl;
+	cout << "Минимальный элемент массива arr: " << minValue(arr, n) << endl;
+	cout << "Максимальный элемент массива arr: " << maxValue(arr, n) << endl;
+
+	for (int i = 0; i < n; i++)
+	{
+		brr[i] = rand() % 10;
+	}
+	cout << endl << "Массив brr: " << endl;
+	Print(brr, n);
+	cout << endl;
+	cout << "Сумма элементов массива brr: " << Sum(brr, n) << endl;
+	cout << "Среднее арифметическое массива brr: " << AVG(brr, n) << endl << endl;
+	cout << "Минимальный элемент массива brr: " << minValue(brr, n) << endl;
+	cout << "Максимальный элемент массива brr: " << maxValue(brr, n) << endl;
+	time_t end = time(NULL);
+	/*cout << end - start << endl;*/
+
+	cout << endl << "Массив d_arr: " << endl;
+	FillRand(d_arr, D_SIZE);
+	Print(d_arr, D_SIZE);
+	
+	cout << endl << "Массив i_arr_2: " << endl;
+	FillRand(i_arr_2, ROWS, COLS);
+	Print(i_arr_2, ROWS, COLS);
+}
+
+void FillRand(double arr[], const int n)
+{
+	for (int i = 0; i < n; i++)
+	{
+		arr[i] = 0.01 * (rand() % 1000);
+	}
+}
+
+void FillRand(int arr[], const int n)
+{
+	for (int i = 0; i < n; i++)
+	{
+		arr[i] = rand() % 100;
+	}
+}
+
+void FillRand(int arr[ROWS][COLS], const int ROWS, const int COLS)
+{
+	for (int i = 0; i < ROWS; i++)
+	{
+		for (int j = 0; j < COLS; j++)
+		{
+			arr[i][j] = rand() % 100;
+		}
+	}
+}
+
+void Print(double arr[], const int n)
+{
+	for (int i = 0; i < n; i++)
+	{
+		cout << arr[i] << tab;
+	}
+	cout << endl;
+}
+
+void Print(int arr[ROWS][COLS], const int ROWS, const int COLS)
+{
+	for (int i = 0; i < ROWS; i++)
+	{
+		for (int j = 0; j < COLS; j++)
+		{
+			cout << arr[i][j]<<tab;
+		}
+		cout << endl;
+	}
+	cout << endl;
 }
 
 int Add(int a, int b) //Реализация функции
@@ -115,4 +247,95 @@ double Power(double a, int n)
 		N *= a;
 	}
 	return N;
+}
+
+int Sum(int arr[], int const n)
+{
+	int sum = 0;
+	for (int i = 0; i < n; i++)
+	{
+		sum += arr[i];
+	}
+	return sum;
+}
+
+double Sum(double arr[], int const n)
+{
+	double sum = 0;
+	for (int i = 0; i < n; i++)
+	{
+		sum += arr[i];
+	}
+	return sum;
+}
+
+double AVG(int arr[], const int n)
+{
+	return (double)Sum(arr, n) / n;
+}
+
+double AVG(double arr[], const int n)
+{
+	return (double)Sum(arr, n) / n;
+}
+
+void Print(int arr[], const int n)
+{
+	for (int i = 0; i < n; i++)
+	{
+		cout << arr[i] << tab;
+	}
+	cout << endl;
+}
+
+int minValue(int arr[], const int n)
+{
+	int min = arr[0];
+	for (int i = 0; i < n; i++)
+	{
+		if (arr[i]<min)
+		{
+			min = arr[i];
+		}
+	}
+	return min;
+}
+
+double minValue(double arr[], const int n)
+{
+	double min = arr[0];
+	for (int i = 0; i < n; i++)
+	{
+		if (arr[i] < min)
+		{
+			min = arr[i];
+		}
+	}
+	return min;
+}
+
+int maxValue(int arr[], const int n)
+{
+	int max = arr[0];
+	for (int i = 0; i < n; i++)
+	{
+		if (arr[i] > max)
+		{
+			max = arr[i];
+		}
+	}
+	return max;
+}
+
+double maxValue(double arr[], const int n)
+{
+	double max = arr[0];
+	for (int i = 0; i < n; i++)
+	{
+		if (arr[i] > max)
+		{
+			max = arr[i];
+		}
+	}
+	return max;
 }
